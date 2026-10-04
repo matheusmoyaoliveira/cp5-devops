@@ -1,0 +1,30 @@
+# Instruções de IA (uso local, não fazem parte da entrega)
+AGENTS.md
+CLAUDE.md
+
+# Segredos
+.env
+.env.*
+!.env.example
+
+# Maven / Java
+target/
+*.class
+*.log
+hs_err_pid*
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+bin/
+
+# Pacotes gerados para deploy
+*.zip
+
+# Sistema
+.DS_Store
+Thumbs.db
