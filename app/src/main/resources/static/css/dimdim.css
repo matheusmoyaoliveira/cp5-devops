@@ -1,0 +1,56 @@
+/* Cores da marca DimDim */
+:root {
+    --dimdim-amarelo: #FFD400;
+    --dimdim-grafite: #3A3A3A;
+}
+
+body {
+    background-color: #F7F7F5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+.navbar-dimdim {
+    background-color: var(--dimdim-amarelo);
+}
+
+.navbar-dimdim .navbar-brand,
+.navbar-dimdim .nav-link {
+    color: var(--dimdim-grafite);
+    font-weight: 600;
+}
+
+.logo-dimdim {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.btn-dimdim {
+    background-color: var(--dimdim-grafite);
+    color: var(--dimdim-amarelo);
+    font-weight: 600;
+}
+
+.btn-dimdim:hover {
+    background-color: #000;
+    color: var(--dimdim-amarelo);
+}
+
+.titulo-pagina {
+    border-left: 6px solid var(--dimdim-amarelo);
+    padding-left: 12px;
+    color: var(--dimdim-grafite);
+}
+
+.footer-dimdim {
+    background-color: var(--dimdim-grafite);
+    color: #DDD;
+    padding: 16px 0;
+    font-size: 0.9rem;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head('Cliente')}"></head>
+
+<body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-4" style="max-width: 720px;">
+    <h1 class="h3 titulo-pagina mb-4"
+        th:text="${cliente.id == null} ? 'Novo cliente' : 'Editar cliente'">Cliente</h1>
+
+    <div th:replace="~{fragments/header :: alertas}"></div>
+
+    <form th:object="${cliente}"
+          th:action="${cliente.id == null} ? @{/clientes} : @{/clientes/{id}(id=${cliente.id})}"
+          th:method="${cliente.id == null} ? 'post' : 'put'"
+          class="card card-body shadow-sm" novalidate>
+
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" th:field="*{nome}" class="form-control"
+                   th:errorclass="is-invalid" maxlength="100">
+            <div class="invalid-feedback" th:errors="*{nome}">Erro no nome</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="cpf" class="form-label">CPF <small class="text-muted">(só números)</small></label>
+            <input type="text" th:field="*{cpf}" class="form-control"
+                   th:errorclass="is-invalid" maxlength="11" inputmode="numeric"
+                   placeholder="11122233344">
+            <div class="invalid-feedback" th:errors="*{cpf}">Erro no CPF</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" th:field="*{email}" class="form-control"
+                   th:errorclass="is-invalid" maxlength="150">
+            <div class="invalid-feedback" th:errors="*{email}">Erro no e-mail</div>
+        </div>
+
+        <div class="mb-4">
+            <label for="telefone" class="form-label">Telefone <small class="text-muted">(opcional)</small></label>
+            <input type="text" th:field="*{telefone}" class="form-control"
+                   th:errorclass="is-invalid" maxlength="20" placeholder="11999999999">
+            <div class="invalid-feedback" th:errors="*{telefone}">Erro no telefone</div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-dimdim">Salvar</button>
+            <a th:href="@{/clientes}" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+    </form>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

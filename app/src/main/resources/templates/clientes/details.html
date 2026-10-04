@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head('Detalhes do cliente')}"></head>
+
+<body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-4">
+    <h1 class="h3 titulo-pagina mb-4" th:text="${cliente.nome}">Nome do cliente</h1>
+
+    <div class="card card-body shadow-sm mb-4">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">ID</dt>
+            <dd class="col-sm-9" th:text="${cliente.id}">1</dd>
+            <dt class="col-sm-3">CPF</dt>
+            <dd class="col-sm-9" th:text="${cliente.cpf}">11122233344</dd>
+            <dt class="col-sm-3">E-mail</dt>
+            <dd class="col-sm-9" th:text="${cliente.email}">ana@dimdim.com</dd>
+            <dt class="col-sm-3">Telefone</dt>
+            <dd class="col-sm-9" th:text="${cliente.telefone} ?: '—'">11999999999</dd>
+            <dt class="col-sm-3">Cadastro</dt>
+            <dd class="col-sm-9"
+                th:text="${#temporals.format(cliente.dataCadastro, 'dd/MM/yyyy HH:mm')}">04/10/2026</dd>
+        </dl>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        <a th:href="@{/clientes/{id}/editar(id=${cliente.id})}" class="btn btn-outline-primary">Editar</a>
+        <a th:href="@{/transacoes/novo(clienteId=${cliente.id})}" class="btn btn-dimdim">+ Nova transação</a>
+        <a th:href="@{/clientes}" class="btn btn-outline-secondary">Voltar</a>
+    </div>
+
+    <h2 class="h5 mb-3">Transações deste cliente</h2>
+    <div class="table-responsive">
+        <table class="table table-sm align-middle bg-white shadow-sm">
+            <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Data</th>
+                <th>Tipo</th>
+                <th>Descrição</th>
+                <th class="text-end">Valor</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="t : ${transacoes}">
+                <td th:text="${t.id}">1</td>
+                <td th:text="${#temporals.format(t.dataTransacao, 'dd/MM/yyyy HH:mm')}">04/10/2026</td>
+                <td th:text="${t.tipo.descricao}">Depósito</td>
+                <td>
+                    <a th:href="@{/transacoes/{id}(id=${t.id})}" th:text="${t.descricao}">Descrição</a>
+                </td>
+                <td class="text-end"
+                    th:text="'R$ ' + ${#numbers.formatDecimal(t.valor, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(transacoes)}">
+                <td colspan="5" class="text-center text-muted py-3">Nenhuma transação para este cliente.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>
