@@ -79,4 +79,4 @@ az monitor app-insights component connect-webapp \
   --resource-group $RESOURCE_GROUP_NAME \
   --output none
 
-echo ">> Web App pronto: https://$WEBAPP_NAME.azurewebsites.net (falta o deploy: 03-deploy.sh)"
+echo ">> Web App criado: https://$WEBAPP_NAME.azurewebsites.net"

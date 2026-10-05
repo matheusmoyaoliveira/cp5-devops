@@ -18,4 +18,3 @@ az webapp deploy \
   --type jar
 
 echo ">> Deploy concluído: https://$WEBAPP_NAME.azurewebsites.net"
-echo ">> No plano F1 a primeira carga pode levar 1-2 minutos."
