@@ -3,10 +3,12 @@
 # Projeto DimDim - variáveis compartilhadas por todos os scripts
 # Regiões permitidas pela policy da conta:
 #   eastus, eastus2, centralus, northcentralus, mexicocentral
+# Azure SQL disponível nesta assinatura (consulta de capabilities):
+#   centralus e mexicocentral (as demais retornam RegionDoesNotAllowProvisioning)
 # ------------------------------------------------------------------
 
 RM="rm563403"
-LOCATION="eastus2"
+LOCATION="centralus"
 
 RESOURCE_GROUP_NAME="rg-dimdim"
 
