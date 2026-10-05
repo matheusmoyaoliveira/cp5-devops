@@ -43,6 +43,14 @@ az sql server firewall-rule create \
   --start-ip-address 0.0.0.0 \
   --end-ip-address 0.0.0.0
 
+if ! command -v sqlcmd > /dev/null 2>&1; then
+  echo ">> sqlcmd não encontrado: instalando o go-sqlcmd (Microsoft) em ~/bin"
+  mkdir -p "$HOME/bin"
+  curl -sSL https://github.com/microsoft/go-sqlcmd/releases/latest/download/sqlcmd-linux-amd64.tar.bz2 \
+    | tar -xj -C "$HOME/bin" sqlcmd
+  export PATH="$HOME/bin:$PATH"
+fi
+
 echo ">> Executando o DDL (scripts/sql/ddl-dimdim.sql)"
 export SQLCMDPASSWORD="$SQL_ADMIN_PASSWORD"
 sqlcmd \
