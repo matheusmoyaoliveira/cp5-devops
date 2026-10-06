@@ -136,6 +136,11 @@ O DDL completo (DROPs, criação das tabelas, constraints, dados iniciais e cons
 
 ## 5. Estrutura do repositório
 
+![Estrutura do repositório DimDim](docs/estrutura.png)
+
+<details>
+<summary>Ver a estrutura em texto</summary>
+
 ```
 cp5-devops/
 ├── app/                                   Código fonte da aplicação (Spring Boot)
@@ -166,8 +171,12 @@ cp5-devops/
 └── docs/
     ├── arquitetura.png                    Desenho macro da arquitetura
     ├── arquitetura.html                   Fonte do desenho
+    ├── estrutura.png                      Imagem da estrutura do repositório
+    ├── estrutura.html                     Fonte da imagem da estrutura
     └── operacoes-crud.json                JSON das operações GET, POST, PUT e DELETE
 ```
+
+</details>
 
 ---
 
