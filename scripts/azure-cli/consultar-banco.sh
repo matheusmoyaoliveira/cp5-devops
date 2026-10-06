@@ -12,9 +12,7 @@ if [ -z "$SQLCMDPASSWORD" ]; then
   export SQLCMDPASSWORD
 fi
 
-if ! command -v sqlcmd > /dev/null 2>&1; then
-  export PATH="$HOME/bin:$PATH"
-fi
+source "$SCRIPT_DIR/instalar-sqlcmd.sh"
 
 CLIENTES="SELECT CAST(id AS VARCHAR(4)) AS id, CAST(nome AS VARCHAR(25)) AS nome, cpf, CAST(email AS VARCHAR(30)) AS email, CAST(telefone AS VARCHAR(12)) AS telefone, CAST(FORMAT(data_cadastro, 'dd/MM/yyyy HH:mm') AS VARCHAR(16)) AS cadastro FROM clientes ORDER BY id;"
 TRANSACOES="SELECT CAST(t.id AS VARCHAR(4)) AS id, CAST(c.nome AS VARCHAR(25)) AS cliente, CAST(t.tipo AS VARCHAR(13)) AS tipo, t.valor, CAST(t.descricao AS VARCHAR(30)) AS descricao, CAST(FORMAT(t.data_transacao, 'dd/MM/yyyy HH:mm') AS VARCHAR(16)) AS data FROM transacoes t INNER JOIN clientes c ON c.id = t.cliente_id ORDER BY t.id;"
