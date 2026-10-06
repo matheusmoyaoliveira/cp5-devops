@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head('Transações')}"></head>
+
+<body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 titulo-pagina">Transações</h1>
+        <a th:href="@{/transacoes/novo}" class="btn btn-dimdim">+ Nova transação</a>
+    </div>
+
+    <div th:replace="~{fragments/header :: alertas}"></div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle bg-white shadow-sm">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Data</th>
+                <th>Cliente</th>
+                <th>Tipo</th>
+                <th>Descrição</th>
+                <th class="text-end">Valor</th>
+                <th class="text-end">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="t : ${transacoes}">
+                <td th:text="${t.id}">1</td>
+                <td th:text="${#temporals.format(t.dataTransacao, 'dd/MM/yyyy HH:mm')}">04/10/2026 10:00</td>
+                <td>
+                    <a th:href="@{/clientes/{id}(id=${t.cliente.id})}" th:text="${t.cliente.nome}">Ana Souza</a>
+                </td>
+                <td><span class="badge text-bg-warning" th:text="${t.tipo.descricao}">Depósito</span></td>
+                <td th:text="${t.descricao}">Depósito salário</td>
+                <td class="text-end text-nowrap"
+                    th:text="'R$ ' + ${#numbers.formatDecimal(t.valor, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                <td class="text-end text-nowrap">
+                    <a th:href="@{/transacoes/{id}(id=${t.id})}"
+                       class="btn btn-sm btn-outline-secondary">Detalhes</a>
+                    <a th:href="@{/transacoes/{id}/editar(id=${t.id})}"
+                       class="btn btn-sm btn-outline-primary">Editar</a>
+                    <form th:action="@{/transacoes/{id}(id=${t.id})}" th:method="delete"
+                          class="d-inline"
+                          onsubmit="return confirm('Confirma a exclusão desta transação?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(transacoes)}">
+                <td colspan="7" class="text-center text-muted py-4">Nenhuma transação cadastrada.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

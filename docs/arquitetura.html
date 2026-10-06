@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>DimDim - Arquitetura</title>
+<style>
+  :root {
+    --azul: #0078d4; --azul-claro: #e8f3fc; --roxo: #6b3fa0; --amarelo: #ffd400;
+    --grafite: #3a3a3a; --texto: #1f2933; --suave: #5f6b7a; --borda: #c8d1dc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1600px; height: 1000px; background: #ffffff; font-family: "Segoe UI", Arial, sans-serif;
+          color: var(--texto); position: relative; overflow: hidden; }
+  .titulo { position: absolute; left: 40px; top: 26px; }
+  .titulo h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; }
+  .titulo h1 span { background: var(--amarelo); padding: 0 8px; border-radius: 6px; }
+  .titulo p { font-size: 15px; color: var(--suave); margin-top: 4px; }
+  .zona { position: absolute; border-radius: 14px; }
+  .zona > .rotulo { position: absolute; top: -15px; left: 18px; background: #fff; padding: 0 10px;
+                     display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--suave); }
+  .assinatura { left: 278px; top: 120px; width: 1282px; height: 840px; border: 2px dashed #9aa5b1; }
+  .rg { left: 300px; top: 165px; width: 1225px; height: 545px; border: 2px solid var(--azul); background: #fbfdff; }
+  .rg > .rotulo { color: var(--azul); }
+  .container { position: absolute; border-radius: 12px; border: 1.5px solid var(--borda); background: #f4f8fc; }
+  .container > .rotulo { position: absolute; top: 10px; left: 14px; display: flex; align-items: center; gap: 8px;
+                          font-size: 13px; font-weight: 600; color: var(--suave); }
+  .card { position: absolute; background: #fff; border: 1.5px solid var(--borda); border-radius: 12px;
+           box-shadow: 0 4px 14px rgba(15, 40, 80, 0.08); display: flex; gap: 16px; align-items: center; padding: 16px 18px; }
+  .card.destaque { border: 2px solid var(--amarelo); box-shadow: 0 6px 18px rgba(255, 212, 0, 0.25); }
+  .card h3 { font-size: 18px; font-weight: 700; }
+  .card .tipo { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--azul); }
+  .card p { font-size: 13px; color: var(--suave); line-height: 1.45; margin-top: 3px; }
+  .card code { font-family: Consolas, monospace; font-size: 12.5px; background: #f1f4f8; padding: 1px 5px; border-radius: 4px; color: var(--texto); }
+  .ator { position: absolute; width: 180px; text-align: center; }
+  .ator h3 { font-size: 16px; font-weight: 700; margin-top: 6px; }
+  .ator p { font-size: 12.5px; color: var(--suave); line-height: 1.4; }
+  .selo { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 12px; font-weight: 600;
+           color: var(--azul); background: var(--azul-claro); border-radius: 20px; padding: 3px 10px 3px 6px; }
+  svg.setas { position: absolute; left: 0; top: 0; }
+  .seta-txt { font-size: 13px; font-weight: 600; fill: var(--texto); }
+  .seta-sub { font-size: 12px; fill: var(--suave); }
+  .legenda { position: absolute; right: 70px; top: 40px; display: flex; gap: 22px; font-size: 13px; color: var(--suave); }
+  .legenda div { display: flex; align-items: center; gap: 8px; }
+</style>
+</head>
+<body>
+
+<div class="titulo">
+  <h1><span>dimdim</span> &nbsp;Arquitetura da solução na Microsoft Azure</h1>
+  <p>Grupo Doletas · 2º Checkpoint · DevOps Tools &amp; Cloud Computing · FIAP</p>
+</div>
+
+<div class="legenda">
+  <div><svg width="44" height="10"><line x1="0" y1="5" x2="44" y2="5" stroke="#0078d4" stroke-width="2.5"/></svg>Fluxo da aplicação</div>
+  <div><svg width="44" height="10"><line x1="0" y1="5" x2="44" y2="5" stroke="#6b3fa0" stroke-width="2.5" stroke-dasharray="7 5"/></svg>Implantação e operação (DevOps)</div>
+</div>
+
+<!-- Atores externos -->
+<div class="ator" style="left: 40px; top: 300px;">
+  <svg width="64" height="64" id="users-e24671f6-f501-4952-a2db-8b0b1d329c17" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><defs><linearGradient id="users-be92901b-ec33-4c65-adf1-9b0eed06d677" x1="9" y1="6.88" x2="9" y2="20.45" gradientUnits="userSpaceOnUse"><stop offset="0.22" stop-color="#32d4f5" /><stop offset="1" stop-color="#198ab3" /></linearGradient><linearGradient id="users-b46fc246-25d8-4398-8779-1042e8cacae7" x1="8.61" y1="-0.4" x2="9.6" y2="11.92" gradientUnits="userSpaceOnUse"><stop offset="0.22" stop-color="#32d4f5" /><stop offset="1" stop-color="#198ab3" /></linearGradient></defs><title>Icon-identity-230</title><path d="M15.72,18a1.45,1.45,0,0,0,1.45-1.45.47.47,0,0,0,0-.17C16.59,11.81,14,8.09,9,8.09S1.34,11.24.83,16.39A1.46,1.46,0,0,0,2.14,18H15.72Z" fill="url(#users-be92901b-ec33-4c65-adf1-9b0eed06d677)" /><path d="M9,9.17a4.59,4.59,0,0,1-2.48-.73L9,14.86l2.44-6.38A4.53,4.53,0,0,1,9,9.17Z" fill="#fff" opacity="0.8" /><circle cx="9.01" cy="4.58" r="4.58" fill="url(#users-b46fc246-25d8-4398-8779-1042e8cacae7)" /></svg>
+  <h3>Usuário</h3>
+  <p>Navegador<br>(front-end Thymeleaf)</p>
+</div>
+<div class="ator" style="left: 40px; top: 790px;">
+  <svg width="56" height="56" viewBox="0 0 16 16"><path fill="#24292f" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53
+5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01
+1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12
+0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0
+3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  <h3>GitHub</h3>
+  <p>Repositório<br><code style="font-size:11.5px">cp5-devops</code></p>
+</div>
+
+<!-- Assinatura -->
+<div class="zona assinatura">
+  <div class="rotulo"><svg width="22" height="22" id="sub-bc18bade-5481-447e-a959-659d72346474" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><defs><radialGradient id="sub-a445c717-9d75-44c7-ba6b-0d8f2383e560" cx="-36.63" cy="17.12" r="11.18" gradientTransform="translate(41.88 -7.4) scale(0.94 0.94)" gradientUnits="userSpaceOnUse"><stop offset="0.27" stop-color="#ffd70f" /><stop offset="0.49" stop-color="#ffcb12" /><stop offset="0.88" stop-color="#feac19" /><stop offset="1" stop-color="#fea11b" /></radialGradient></defs><title>Icon-general-2</title><path id="sub-e3d1e58c-f78e-4fb5-9857-0c9331da9979" d="M13.56,7.19a2.07,2.07,0,0,0,0-2.93h0L10,.69a2.06,2.06,0,0,0-2.92,0h0L3.52,4.26a2.09,2.09,0,0,0,0,2.93l3,3a.61.61,0,0,1,.17.41v5.52a.7.7,0,0,0,.2.5l1.35,1.35a.45.45,0,0,0,.66,0l1.31-1.31h0l.77-.77a.26.26,0,0,0,0-.38l-.55-.56a.29.29,0,0,1,0-.42l.55-.56a.26.26,0,0,0,0-.38L10.4,13a.28.28,0,0,1,0-.41L11,12a.26.26,0,0,0,0-.38l-.77-.78v-.28Zm-5-5.64A1.18,1.18,0,1,1,7.37,2.73,1.17,1.17,0,0,1,8.54,1.55Z" fill="url(#sub-a445c717-9d75-44c7-ba6b-0d8f2383e560)" /><path id="sub-a21a8f7a-61cc-4035-8449-e5c8fe4d4d5e" d="M7.62,16.21h0A.25.25,0,0,0,8,16V11.55a.27.27,0,0,0-.11-.22h0a.25.25,0,0,0-.39.22V16A.27.27,0,0,0,7.62,16.21Z" fill="#ff9300" opacity="0.75" /><rect id="sub-ecd3189c-fb1e-4a0e-a2b6-ba2f11dda484" x="5.69" y="5.45" width="5.86" height="0.69" rx="0.32" fill="#ff9300" opacity="0.75" /><rect id="sub-a1949a3c-4818-4bd1-b236-0d970b92fc62" x="5.69" y="6.57" width="5.86" height="0.69" rx="0.32" fill="#ff9300" opacity="0.75" /></svg> Assinatura Azure for Students</div>
+</div>
+
+<!-- Resource Group -->
+<div class="zona rg">
+  <div class="rotulo"><svg width="22" height="22" id="rg-a685cc8c-32ba-4d54-91da-3a125cb58ded" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><title>Icon-general-7</title><g><g><path d="M.5,15.08a.16.16,0,0,0,.08.14l1.16.65L3.7,17a.17.17,0,0,0,.23-.06l.66-1.12a.16.16,0,0,0-.06-.21l-2.3-1.3a.17.17,0,0,1-.08-.14V3.85a.16.16,0,0,1,.08-.14l2.3-1.3a.16.16,0,0,0,.06-.21L3.93,1.08A.17.17,0,0,0,3.7,1L1.78,2.11l-1.2.67a.16.16,0,0,0-.08.14V15.08Z" fill="#949494" /><path d="M2.14,3.77l.06-.06,2.3-1.3a.14.14,0,0,0,.06-.21L3.9,1.08A.15.15,0,0,0,3.68,1L1.75,2.11.56,2.78s-.05,0-.06.06l.9.51Z" fill="#a3a3a3" /><path d="M4.5,15.59l-2.3-1.3a.22.22,0,0,1-.07-.09l-1.62,1,.05,0,1.15.65,2,1.11a.15.15,0,0,0,.22-.06l.66-1.12A.14.14,0,0,0,4.5,15.59Z" fill="#a3a3a3" /></g><path d="M17.5,15.08a.16.16,0,0,1-.08.14l-1.16.65L14.3,17a.17.17,0,0,1-.23-.06l-.66-1.12a.16.16,0,0,1,.06-.21l2.3-1.3a.17.17,0,0,0,.08-.14V3.85a.16.16,0,0,0-.08-.14l-2.3-1.3a.16.16,0,0,1-.06-.21l.66-1.12A.17.17,0,0,1,14.3,1l1.92,1.09,1.2.67a.16.16,0,0,1,.08.14V15.08Z" fill="#949494" /><path d="M15.86,3.77l-.06-.06-2.3-1.3a.14.14,0,0,1-.06-.21l.66-1.12A.15.15,0,0,1,14.32,1l1.93,1.09,1.19.67s0,0,.06.06l-.9.51Z" fill="#a3a3a3" /><path d="M13.5,15.59l2.3-1.3a.22.22,0,0,0,.07-.09l1.62,1,0,0-1.15.65-2,1.11a.15.15,0,0,1-.22-.06l-.66-1.12A.14.14,0,0,1,13.5,15.59Z" fill="#a3a3a3" /><polygon points="14.31 5.93 14.31 12.07 8.99 15.16 8.99 9.01 14.31 5.93" fill="#32bedd" /><polygon points="14.31 5.93 9 9.02 3.68 5.93 9 2.84 14.31 5.93" fill="#9cebff" /><polygon points="8.99 9.02 8.99 15.16 3.68 12.07 3.68 5.93 8.99 9.02" fill="#50e6ff" /><polygon points="3.68 12.07 8.99 9.01 8.99 15.16 3.68 12.07" fill="#9cebff" /><polygon points="14.31 12.07 8.99 9.01 8.99 15.16 14.31 12.07" fill="#50e6ff" /></g></svg> Resource Group <code style="font-family:Consolas,monospace">rg-dimdim</code> · Central US</div>
+</div>
+
+<!-- App Service Plan + Web App -->
+<div class="container" style="left: 320px; top: 205px; width: 470px; height: 285px;">
+  <div class="rotulo"><svg width="20" height="20" id="plan-fca2105f-c039-4f34-bd65-8ab95d4ecdb9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><defs><linearGradient id="plan-a773af38-43e4-4fd2-9485-f8aac63ca91b" x1="5.57" y1="17.5" x2="5.57" y2="0.5" gradientUnits="userSpaceOnUse"><stop offset="0.05" stop-color="#949494" /><stop offset="0.36" stop-color="#979797" /><stop offset="0.54" stop-color="#9f9f9f" /><stop offset="0.69" stop-color="#adadad" /><stop offset="0.73" stop-color="#b3b3b3" /></linearGradient><linearGradient id="plan-b4779ae6-74a5-486d-8aad-cd011859785a" x1="10.56" y1="6.02" x2="10.56" y2="19.71" gradientUnits="userSpaceOnUse"><stop offset="0.18" stop-color="#5ea0ef" /><stop offset="1" stop-color="#0078d4" /></linearGradient></defs><title>Icon-web-46</title><path d="M10.56,16.93a.56.56,0,0,1-.57.57H1.14a.56.56,0,0,1-.56-.57V1.07A.56.56,0,0,1,1.14.5H10a.56.56,0,0,1,.57.57Z" fill="url(#plan-a773af38-43e4-4fd2-9485-f8aac63ca91b)" /><path d="M2,6.46A1.08,1.08,0,0,1,3.13,5.38h5A1.08,1.08,0,0,1,9.18,6.46h0A1.08,1.08,0,0,1,8.1,7.55h-5A1.09,1.09,0,0,1,2,6.46Z" fill="#003067" /><path d="M2,3.24A1.09,1.09,0,0,1,3.13,2.15h5A1.08,1.08,0,0,1,9.18,3.24h0A1.08,1.08,0,0,1,8.1,4.32h-5A1.08,1.08,0,0,1,2,3.24Z" fill="#003067" /><circle cx="3.17" cy="3.24" r="0.73" fill="#50e6ff" /><circle cx="3.17" cy="6.46" r="0.73" fill="#50e6ff" /><path d="M17.42,14.38a3.12,3.12,0,0,0-2.67-3,3.93,3.93,0,0,0-4-3.8,4,4,0,0,0-3.83,2.66A3.7,3.7,0,0,0,3.7,13.83,3.77,3.77,0,0,0,7.56,17.5l.34,0h6.26l.17,0A3.15,3.15,0,0,0,17.42,14.38Z" fill="url(#plan-b4779ae6-74a5-486d-8aad-cd011859785a)" /><rect width="18" height="18" fill="none" /></svg> App Service Plan <code style="font-family:Consolas,monospace">plan-dimdim</code> · F1 Linux</div>
+</div>
+<div class="card destaque" style="left: 340px; top: 250px; width: 430px; height: 220px;">
+  <svg width="64" height="64" id="webapp-b70acf0a-34b4-4bdf-9024-7496043ff915" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><defs><radialGradient id="webapp-e2cf8746-c9a8-4eee-86c2-4951983c6032" cx="13428.81" cy="3518.86" r="56.67" gradientTransform="translate(-2005.33 -518.83) scale(0.15)" gradientUnits="userSpaceOnUse"><stop offset="0.18" stop-color="#5ea0ef" /><stop offset="1" stop-color="#0078d4" /></radialGradient><linearGradient id="webapp-bdd213dd-d313-473c-8ff4-0133fd3a9033" x1="4.4" y1="11.48" x2="4.37" y2="7.53" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ccc" /><stop offset="1" stop-color="#fcfcfc" /></linearGradient><linearGradient id="webapp-afcc63c5-3649-4476-a742-bcb53a569f3c" x1="10.13" y1="15.45" x2="10.13" y2="11.9" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ccc" /><stop offset="1" stop-color="#fcfcfc" /></linearGradient><linearGradient id="webapp-bd873f0b-9954-4aa5-a3df-9f4c64e8729d" x1="14.18" y1="11.15" x2="14.18" y2="7.38" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ccc" /><stop offset="1" stop-color="#fcfcfc" /></linearGradient></defs><title>Icon-web-41</title><path id="webapp-ee75dd06-1aca-4f76-9d11-d05a284020ad" d="M14.21,15.72A8.5,8.5,0,0,1,3.79,2.28l.09-.06a8.5,8.5,0,0,1,10.33,13.5" fill="url(#webapp-e2cf8746-c9a8-4eee-86c2-4951983c6032)" /><path d="M6.69,7.23A13,13,0,0,1,15.6,3.65a8.47,8.47,0,0,0-1.49-1.44,14.34,14.34,0,0,0-4.69,1.1A12.54,12.54,0,0,0,5.34,6.13,2.76,2.76,0,0,1,6.69,7.23Z" fill="#fff" opacity="0.6" /><path d="M2.48,10.65a17.86,17.86,0,0,0-.83,2.62,7.82,7.82,0,0,0,.62.92c.18.23.35.44.55.65A17.94,17.94,0,0,1,3.9,11.37,2.76,2.76,0,0,1,2.48,10.65Z" fill="#fff" opacity="0.6" /><path d="M3.46,6.11a12,12,0,0,1-.69-2.94,8.15,8.15,0,0,0-1.1,1.45A12.69,12.69,0,0,0,2.24,7,2.69,2.69,0,0,1,3.46,6.11Z" fill="#f2f2f2" opacity="0.55" /><circle cx="4.38" cy="8.68" r="2.73" fill="url(#webapp-bdd213dd-d313-473c-8ff4-0133fd3a9033)" /><path d="M8.36,13.67A1.77,1.77,0,0,1,8.9,12.4a11.88,11.88,0,0,1-2.53-1.86,2.74,2.74,0,0,1-1.49.83,13.1,13.1,0,0,0,1.45,1.28A12.12,12.12,0,0,0,8.38,13.9,1.79,1.79,0,0,1,8.36,13.67Z" fill="#f2f2f2" opacity="0.55" /><path d="M14.66,13.88a12,12,0,0,1-2.76-.32.41.41,0,0,1,0,.11,1.75,1.75,0,0,1-.51,1.24,13.69,13.69,0,0,0,3.42.24A8.21,8.21,0,0,0,16,13.81,11.5,11.5,0,0,1,14.66,13.88Z" fill="#f2f2f2" opacity="0.55" /><circle cx="10.13" cy="13.67" r="1.78" fill="url(#webapp-afcc63c5-3649-4476-a742-bcb53a569f3c)" /><path d="M12.32,8.93a1.83,1.83,0,0,1,.61-1A25.5,25.5,0,0,1,8.47,3.79a16.91,16.91,0,0,1-2-2.92,7.64,7.64,0,0,0-1.09.42A18.14,18.14,0,0,0,7.53,4.47,26.44,26.44,0,0,0,12.32,8.93Z" fill="#f2f2f2" opacity="0.7" /><circle cx="14.18" cy="9.27" r="1.89" fill="url(#webapp-bd873f0b-9954-4aa5-a3df-9f4c64e8729d)" /><path d="M17.35,10.54,17,10.37l0,0-.3-.16-.06,0L16.38,10l-.07,0L16,9.8a1.76,1.76,0,0,1-.64.92c.12.08.25.15.38.22l.08.05.35.19,0,0,.86.45h0a8.63,8.63,0,0,0,.29-1.11Z" fill="#f2f2f2" opacity="0.55" /><circle cx="4.38" cy="8.68" r="2.73" fill="url(#webapp-bdd213dd-d313-473c-8ff4-0133fd3a9033)" /><circle cx="10.13" cy="13.67" r="1.78" fill="url(#webapp-afcc63c5-3649-4476-a742-bcb53a569f3c)" /></svg>
+  <div>
+    <div class="tipo">Azure Web App</div>
+    <h3>dimdim-rm563403</h3>
+    <p>Java 17 · Spring Boot 4<br>Spring MVC + Thymeleaf · Spring Data JPA</p>
+    <p><code>az webapp deploy --type jar</code></p>
+    <p><code>dimdim-rm563403.azurewebsites.net</code></p>
+  </div>
+</div>
+
+<!-- SQL Server + Database -->
+<div class="container" style="left: 1020px; top: 205px; width: 470px; height: 285px;">
+  <div class="rotulo"><svg width="20" height="20" id="sqlserver-b1cfe86c-f00b-4507-bce2-50d07e45fe96" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><defs><linearGradient id="sqlserver-b39dcf83-187e-4c64-98df-431bb60809d2" x1="0.5" y1="10.04" x2="13.18" y2="10.04" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#005ba1" /><stop offset="0.07" stop-color="#0060a9" /><stop offset="0.36" stop-color="#0071c8" /><stop offset="0.52" stop-color="#0078d4" /><stop offset="0.64" stop-color="#0074cd" /><stop offset="0.82" stop-color="#006abb" /><stop offset="1" stop-color="#005ba1" /></linearGradient></defs><title>Icon-databases-132</title><path d="M6.84,5.09c-3.5,0-6.34-1-6.34-2.3V15c0,1.26,2.79,2.28,6.25,2.3h.09c3.5,0,6.34-1,6.34-2.3V2.79C13.18,4.06,10.34,5.09,6.84,5.09Z" fill="url(#sqlserver-b39dcf83-187e-4c64-98df-431bb60809d2)" /><path d="M13.18,2.79c0,1.27-2.84,2.3-6.34,2.3S.5,4.06.5,2.79,3.34.49,6.84.49s6.34,1,6.34,2.3" fill="#e8e8e8" /><path d="M11.7,2.6c0,.81-2.18,1.46-4.86,1.46S2,3.41,2,2.6,4.16,1.14,6.84,1.14,11.7,1.8,11.7,2.6" fill="#50e6ff" /><path d="M6.84,2.94A12,12,0,0,0,3,3.49a11.25,11.25,0,0,0,3.85.57,11.25,11.25,0,0,0,3.85-.57A12,12,0,0,0,6.84,2.94Z" fill="#198ab3" /><path d="M10.74,11.1V7.72H9.81v4.14h2.46V11.1ZM3.59,9.43a1.92,1.92,0,0,1-.51-.31A.44.44,0,0,1,3,8.8a.38.38,0,0,1,.16-.31.72.72,0,0,1,.42-.11,1.67,1.67,0,0,1,1,.29V7.81a2.67,2.67,0,0,0-1-.16A1.74,1.74,0,0,0,2.38,8a1.13,1.13,0,0,0-.41.9c0,.51.32.91,1,1.21a2.9,2.9,0,0,1,.61.36.4.4,0,0,1,.16.32.38.38,0,0,1-.16.31.75.75,0,0,1-.45.12A1.6,1.6,0,0,1,2,10.77v.93a2.29,2.29,0,0,0,1.07.23,2,2,0,0,0,1.18-.32,1.1,1.1,0,0,0,.43-.92,1,1,0,0,0-.25-.7A2.42,2.42,0,0,0,3.59,9.43ZM8.79,11a2.4,2.4,0,0,0,.33-1.27,2.32,2.32,0,0,0-.25-1.1,1.81,1.81,0,0,0-.7-.75,2,2,0,0,0-1-.26,2.18,2.18,0,0,0-1.09.27,1.87,1.87,0,0,0-.73.77,2.41,2.41,0,0,0-.26,1.15,2.26,2.26,0,0,0,.24,1.05,1.83,1.83,0,0,0,.68.75,2,2,0,0,0,1,.29l.85,1H9.05l-1.2-1.11A1.81,1.81,0,0,0,8.79,11Zm-.93-.26a1,1,0,0,1-1.53,0,1.51,1.51,0,0,1-.28-1,1.48,1.48,0,0,1,.29-1,.92.92,0,0,1,.78-.37.89.89,0,0,1,.75.37,1.62,1.62,0,0,1,.27,1A1.46,1.46,0,0,1,7.86,10.77Z" fill="#f2f2f2" /><path d="M14.81,17.49l.24-.79.47-.27.81.36.52-.53V16.2l-.37-.71.22-.5.81-.29.09,0v-.73l-.1,0-.8-.24-.26-.46.35-.82-.53-.51H16.2l-.71.36L15,12l-.32-.89h-.74l0,.11-.24.79-.51.22-.87-.4-.51.53.05.1.38.74-.2.51L11.1,14v.74l.11,0,.79.24.22.51-.39.86.53.52.09-.05.74-.38.51.2.34.89h.73Zm-1.2-2.36a1.06,1.06,0,1,1,1.49-1.52,1.06,1.06,0,0,1-1.49,1.52Z" fill="#949494" /></svg> Azure SQL Server <code style="font-family:Consolas,monospace">sql-dimdim-rm563403</code></div>
+</div>
+<div class="card" style="left: 1040px; top: 250px; width: 430px; height: 220px;">
+  <svg width="64" height="64" id="sqldb-a96792b7-ce28-4ca3-9767-4e065ef4820f" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><defs><linearGradient id="sqldb-ef16bf9d-a8b6-4181-b6cd-66fc5203f956" x1="2.59" y1="10.16" x2="15.41" y2="10.16" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#005ba1" /><stop offset="0.07" stop-color="#0060a9" /><stop offset="0.36" stop-color="#0071c8" /><stop offset="0.52" stop-color="#0078d4" /><stop offset="0.64" stop-color="#0074cd" /><stop offset="0.82" stop-color="#006abb" /><stop offset="1" stop-color="#005ba1" /></linearGradient><radialGradient id="sqldb-bf3846c3-4d74-4743-ab9a-f334c248bd92" cx="9.36" cy="10.57" r="7.07" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f2f2f2" /><stop offset="0.58" stop-color="#eee" /><stop offset="1" stop-color="#e6e6e6" /></radialGradient></defs><title>Icon-databases-130</title><path d="M9,5.14c-3.54,0-6.41-1-6.41-2.32V15.18c0,1.27,2.82,2.3,6.32,2.32H9c3.54,0,6.41-1,6.41-2.32V2.82C15.41,4.11,12.54,5.14,9,5.14Z" fill="url(#sqldb-ef16bf9d-a8b6-4181-b6cd-66fc5203f956)" /><path d="M15.41,2.82c0,1.29-2.87,2.32-6.41,2.32s-6.41-1-6.41-2.32S5.46.5,9,.5s6.41,1,6.41,2.32" fill="#e8e8e8" /><path d="M13.92,2.63c0,.82-2.21,1.48-4.92,1.48S4.08,3.45,4.08,2.63,6.29,1.16,9,1.16s4.92.66,4.92,1.47" fill="#50e6ff" /><path d="M9,3a11.55,11.55,0,0,0-3.89.57A11.42,11.42,0,0,0,9,4.11a11.15,11.15,0,0,0,3.89-.58A11.84,11.84,0,0,0,9,3Z" fill="#198ab3" /><path d="M12.9,11.4V8H12v4.13h2.46V11.4ZM5.76,9.73a1.83,1.83,0,0,1-.51-.31.44.44,0,0,1-.12-.32.34.34,0,0,1,.15-.3.68.68,0,0,1,.42-.12,1.62,1.62,0,0,1,1,.29V8.11a2.58,2.58,0,0,0-1-.16,1.64,1.64,0,0,0-1.09.34,1.08,1.08,0,0,0-.42.89c0,.51.32.91,1,1.21a2.88,2.88,0,0,1,.62.36.42.42,0,0,1,.15.32.38.38,0,0,1-.16.31.81.81,0,0,1-.45.11,1.66,1.66,0,0,1-1.09-.42V12a2.17,2.17,0,0,0,1.07.24,1.88,1.88,0,0,0,1.18-.33A1.08,1.08,0,0,0,6.84,11a1.05,1.05,0,0,0-.25-.7A2.42,2.42,0,0,0,5.76,9.73ZM11,11.32a2.34,2.34,0,0,0,.33-1.26A2.32,2.32,0,0,0,11,9a1.81,1.81,0,0,0-.7-.75,2,2,0,0,0-1-.26,2.11,2.11,0,0,0-1.08.27A1.86,1.86,0,0,0,7.49,9a2.46,2.46,0,0,0-.26,1.14,2.26,2.26,0,0,0,.24,1,1.76,1.76,0,0,0,.69.74,2.06,2.06,0,0,0,1,.3l.86,1h1.21L10,12.08A1.79,1.79,0,0,0,11,11.32ZM10,11.07a.94.94,0,0,1-.76.35.92.92,0,0,1-.76-.36,1.52,1.52,0,0,1-.29-1,1.53,1.53,0,0,1,.29-1,1,1,0,0,1,.78-.37.87.87,0,0,1,.75.37,1.62,1.62,0,0,1,.27,1A1.46,1.46,0,0,1,10,11.07Z" fill="url(#sqldb-bf3846c3-4d74-4743-ab9a-f334c248bd92)" /></svg>
+  <div>
+    <div class="tipo">Azure SQL Database · PaaS</div>
+    <h3>db-dimdim</h3>
+    <p>Camada Basic<br>Tabelas <code>clientes</code> 1:N <code>transacoes</code></p>
+    <div class="selo"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1l6 2.2v4.3c0 3.6-2.5 6.3-6 7.5-3.5-1.2-6-3.9-6-7.5V3.2z"
+fill="#e8f3fc" stroke="#0078d4" stroke-width="1.2"/><path d="M5.3 8.2l1.8 1.8 3.6-3.7" fill="none" stroke="#0078d4"
+stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Firewall: somente serviços da Azure</div>
+  </div>
+</div>
+
+<!-- Application Insights -->
+<div class="card" style="left: 340px; top: 560px; width: 430px; height: 120px;">
+  <svg width="54" height="54" id="insights-b6f6d99e-f330-481d-836f-ea58cc42217f" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><defs><radialGradient id="insights-a7a1c431-6c6d-4a8f-9a69-8da437e5b0c5" cx="9" cy="7.35" r="6.42" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#b77af4" /><stop offset="0.21" stop-color="#b378f2" /><stop offset="0.43" stop-color="#a672ed" /><stop offset="0.65" stop-color="#9267e4" /><stop offset="0.88" stop-color="#7559d8" /><stop offset="1" stop-color="#624fd0" /></radialGradient><linearGradient id="insights-ec0c4f0d-5c8e-4882-96a1-89d61808eb49" x1="9.02" y1="3.91" x2="9.08" y2="11.49" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f2f2f2" /><stop offset="0.23" stop-color="#f1f1f2" stop-opacity="0.99" /><stop offset="0.37" stop-color="#ededf1" stop-opacity="0.95" /><stop offset="0.48" stop-color="#e7e5f0" stop-opacity="0.89" /><stop offset="0.58" stop-color="#dedbee" stop-opacity="0.81" /><stop offset="0.67" stop-color="#d3ceeb" stop-opacity="0.7" /><stop offset="0.76" stop-color="#c4bee8" stop-opacity="0.57" /><stop offset="0.84" stop-color="#b4abe5" stop-opacity="0.41" /><stop offset="0.92" stop-color="#a095e1" stop-opacity="0.22" /><stop offset="0.99" stop-color="#8b7ddc" stop-opacity="0.02" /><stop offset="1" stop-color="#897bdc" stop-opacity="0" /></linearGradient></defs><title>Icon-manage-310</title><path d="M10.23,17.39l.81-.87V14.2H7v2.32l.81.87A.32.32,0,0,0,8,17.5h2A.32.32,0,0,0,10.23,17.39Z" fill="#cecece" /><path d="M9,.5A5.89,5.89,0,0,0,3.09,7.07c.27,2.47,2.62,3.62,3.29,6.75a.49.49,0,0,0,.47.38h4.3a.49.49,0,0,0,.47-.38c.67-3.13,3-4.28,3.29-6.75A5.89,5.89,0,0,0,9,.5ZM7,14.2" fill="url(#insights-a7a1c431-6c6d-4a8f-9a69-8da437e5b0c5)" /><path d="M11.46,3.79a1.4,1.4,0,0,0-1.35,1.44V6H8V5.23A1.41,1.41,0,0,0,6.59,3.79,1.4,1.4,0,0,0,5.24,5.23,1.41,1.41,0,0,0,6.59,6.68h.64v6a.36.36,0,0,0,.72,0v-6h2.16v6a.36.36,0,1,0,.72,0v-6h.63a1.4,1.4,0,0,0,1.35-1.45A1.4,1.4,0,0,0,11.46,3.79ZM7.23,6H6.55a.74.74,0,0,1-.68-.77.74.74,0,0,1,.68-.77.74.74,0,0,1,.68.77Zm4.28,0h-.68V5.19a.68.68,0,1,1,1.35,0A.73.73,0,0,1,11.51,6Z" fill="url(#insights-ec0c4f0d-5c8e-4882-96a1-89d61808eb49)" /><polygon points="6.96 15.8 11.04 15.01 11.04 14.56 6.96 15.36 6.96 15.8" fill="#999" /><polygon points="11.04 16.11 11.04 15.67 6.96 16.48 6.96 16.52 7.27 16.86 11.04 16.11" fill="#999" /></svg>
+  <div>
+    <div class="tipo">Application Insights</div>
+    <h3>ai-dimdim</h3>
+    <p>Requisições · dependências SQL · falhas · desempenho</p>
+  </div>
+</div>
+
+<!-- Log Analytics -->
+<div class="card" style="left: 1040px; top: 560px; width: 430px; height: 120px;">
+  <svg width="54" height="54" id="logs-b388e944-5509-49c9-84d7-f38bffa995b2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><defs><linearGradient id="logs-a997e203-1d7d-4cb9-b131-5dc44e029b46" x1="5.23" y1="17.45" x2="5.23" y2="8.09" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1988d9" /><stop offset="0.9" stop-color="#54aef0" /></linearGradient><linearGradient id="logs-e122e9d8-aee5-4f1a-a60e-b1eae355daa5" x1="11.5" y1="12.45" x2="11.5" y2="0.55" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#198ab3" /><stop offset="0.01" stop-color="#198bb4" /><stop offset="0.44" stop-color="#27b2d7" /><stop offset="0.79" stop-color="#2fcbed" /><stop offset="1" stop-color="#32d4f5" /></linearGradient></defs><title>Icon-manage-307</title><path d="M5.59,13.13H9.91v4.32H5.59ZM1.15,17.45H4.87V13.13H.55v3.72A.6.6,0,0,0,1.15,17.45Zm-.6-5H4.87V8.09H.55Z" fill="url(#logs-a997e203-1d7d-4cb9-b131-5dc44e029b46)" /><path d="M11.5.55a5.89,5.89,0,0,1,5.95,6,5.89,5.89,0,0,1-5.95,5.95H5.55V6.5A5.89,5.89,0,0,1,11.5.55Z" fill-rule="evenodd" fill="url(#logs-e122e9d8-aee5-4f1a-a60e-b1eae355daa5)" /><rect x="7.59" y="5.65" width="1.36" height="4.08" fill="#fff" /><rect x="10.31" y="7.01" width="1.36" height="2.72" fill="#fff" /><rect x="13.03" y="4.29" width="1.36" height="5.44" fill="#fff" /></svg>
+  <div>
+    <div class="tipo">Log Analytics Workspace</div>
+    <h3>log-dimdim</h3>
+    <p>Armazena a telemetria · consultas KQL</p>
+  </div>
+</div>
+
+<!-- Cloud Shell -->
+<div class="card" style="left: 320px; top: 765px; width: 470px; height: 165px; border-color: #c9b6e4;">
+  <svg width="58" height="58" viewBox="0 0 18 18"><rect x="1" y="2" width="16" height="14" rx="2" fill="#243a5e"/>
+<rect x="1" y="2" width="16" height="3" rx="1.5" fill="#0078d4"/><path d="M4 8.2l2.6 2-2.6 2" fill="none" stroke="#fff"
+stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.2 12.4h4.6" stroke="#ffd400" stroke-width="1.3"
+stroke-linecap="round"/></svg>
+  <div>
+    <div class="tipo" style="color: var(--roxo);">Azure Cloud Shell · Bash</div>
+    <h3>Azure CLI (scripts/azure-cli)</h3>
+    <p><code>01-criar-banco.sh</code> <code>02-criar-webapp.sh</code><br><code>03-deploy.sh</code> <code>04-limpar.sh</code></p>
+  </div>
+</div>
+
+<!-- Consultas -->
+<div class="card" style="left: 1020px; top: 765px; width: 470px; height: 165px; border-color: #c9b6e4;">
+  <svg width="58" height="58" viewBox="0 0 18 18"><rect x="1" y="2" width="16" height="14" rx="2" fill="#243a5e"/>
+<rect x="1" y="2" width="16" height="3" rx="1.5" fill="#0078d4"/><path d="M4 8.2l2.6 2-2.6 2" fill="none" stroke="#fff"
+stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.2 12.4h4.6" stroke="#ffd400" stroke-width="1.3"
+stroke-linecap="round"/></svg>
+  <div>
+    <div class="tipo" style="color: var(--roxo);">Verificação · Cloud Shell</div>
+    <h3>Persistência e monitoramento</h3>
+    <p><code>consultar-banco.sh</code> → <code>sqlcmd</code> no Azure SQL<br><code>consultar-monitoramento.sh</code> → KQL</p>
+  </div>
+</div>
+
+<!-- Setas -->
+<svg class="setas" width="1600" height="1000">
+  <defs>
+    <marker id="pa" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0078d4"/></marker>
+    <marker id="pr" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6b3fa0"/></marker>
+  </defs>
+
+  <!-- Usuário -> Web App -->
+  <line x1="190" y1="360" x2="332" y2="360" stroke="#0078d4" stroke-width="2.5" marker-end="url(#pa)"/>
+  <text x="196" y="345" class="seta-txt">HTTPS</text>
+  <text x="196" y="382" class="seta-sub">porta 443</text>
+
+  <!-- Web App -> SQL Database -->
+  <line x1="772" y1="360" x2="1032" y2="360" stroke="#0078d4" stroke-width="2.5" marker-end="url(#pa)"/>
+  <text x="902" y="344" class="seta-txt" text-anchor="middle">JDBC · TLS (porta 1433)</text>
+  <text x="902" y="382" class="seta-sub" text-anchor="middle">credenciais via App Settings</text>
+
+  <!-- Web App -> Application Insights -->
+  <line x1="555" y1="472" x2="555" y2="550" stroke="#0078d4" stroke-width="2.5" marker-end="url(#pa)"/>
+  <text x="576" y="516" class="seta-txt">Telemetria</text>
+  <text x="576" y="533" class="seta-sub">agente Java (sem código)</text>
+
+  <!-- Insights -> Log Analytics -->
+  <line x1="772" y1="620" x2="1032" y2="620" stroke="#0078d4" stroke-width="2.5" marker-end="url(#pa)"/>
+  <text x="902" y="606" class="seta-txt" text-anchor="middle">armazena os dados</text>
+
+  <!-- GitHub -> Cloud Shell -->
+  <line x1="190" y1="848" x2="312" y2="848" stroke="#6b3fa0" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#pr)"/>
+  <text x="196" y="834" class="seta-txt">git clone</text>
+
+  <!-- Cloud Shell -> Resource Group -->
+  <line x1="555" y1="763" x2="555" y2="718" stroke="#6b3fa0" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#pr)"/>
+  <text x="576" y="738" class="seta-txt">provisiona os recursos, executa o DDL e publica o .jar</text>
+  <text x="576" y="755" class="seta-sub">az group · az sql · az webapp · az monitor · sqlcmd</text>
+
+  <!-- Consultas -> Log Analytics / SQL -->
+  <line x1="1255" y1="763" x2="1255" y2="690" stroke="#6b3fa0" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#pr)"/>
+  <text x="1276" y="738" class="seta-txt">KQL e sqlcmd</text>
+</svg>
+
+</body>
+</html>

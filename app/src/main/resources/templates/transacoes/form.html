@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head('Transação')}"></head>
+
+<body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-4" style="max-width: 720px;">
+    <h1 class="h3 titulo-pagina mb-4"
+        th:text="${transacao.id == null} ? 'Nova transação' : 'Editar transação'">Transação</h1>
+
+    <div th:replace="~{fragments/header :: alertas}"></div>
+
+    <form th:object="${transacao}"
+          th:action="${transacao.id == null} ? @{/transacoes} : @{/transacoes/{id}(id=${transacao.id})}"
+          th:method="${transacao.id == null} ? 'post' : 'put'"
+          class="card card-body shadow-sm" novalidate>
+
+        <div class="mb-3">
+            <label for="cliente.id" class="form-label">Cliente</label>
+            <select th:field="*{cliente.id}" class="form-select" th:errorclass="is-invalid">
+                <option value="">Selecione o cliente</option>
+                <option th:each="c : ${clientes}"
+                        th:value="${c.id}"
+                        th:text="${c.nome} + ' (CPF ' + ${c.cpf} + ')'">Ana Souza</option>
+            </select>
+            <div class="invalid-feedback" th:errors="*{cliente.id}">Erro no cliente</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo</label>
+            <select th:field="*{tipo}" class="form-select" th:errorclass="is-invalid">
+                <option value="">Selecione o tipo</option>
+                <option th:each="tp : ${tipos}"
+                        th:value="${tp}"
+                        th:text="${tp.descricao}">Depósito</option>
+            </select>
+            <div class="invalid-feedback" th:errors="*{tipo}">Erro no tipo</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição</label>
+            <input type="text" th:field="*{descricao}" class="form-control"
+                   th:errorclass="is-invalid" maxlength="255" placeholder="Ex.: PIX para aluguel">
+            <div class="invalid-feedback" th:errors="*{descricao}">Erro na descrição</div>
+        </div>
+
+        <div class="mb-4">
+            <label for="valor" class="form-label">Valor (R$)</label>
+            <input type="number" th:field="*{valor}" class="form-control"
+                   th:errorclass="is-invalid" step="0.01" min="0.01" placeholder="150.00">
+            <div class="invalid-feedback" th:errors="*{valor}">Erro no valor</div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-dimdim">Salvar</button>
+            <a th:href="@{/transacoes}" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+    </form>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

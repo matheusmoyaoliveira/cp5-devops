@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head('Clientes')}"></head>
+
+<body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 titulo-pagina">Clientes</h1>
+        <a th:href="@{/clientes/novo}" class="btn btn-dimdim">+ Novo cliente</a>
+    </div>
+
+    <div th:replace="~{fragments/header :: alertas}"></div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle bg-white shadow-sm">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Cadastro</th>
+                <th class="text-end">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c : ${clientes}">
+                <td th:text="${c.id}">1</td>
+                <td th:text="${c.nome}">Ana Souza</td>
+                <td th:text="${c.cpf}">11122233344</td>
+                <td th:text="${c.email}">ana@dimdim.com</td>
+                <td th:text="${c.telefone}">11999999999</td>
+                <td th:text="${#temporals.format(c.dataCadastro, 'dd/MM/yyyy HH:mm')}">04/10/2026 10:00</td>
+                <td class="text-end text-nowrap">
+                    <a th:href="@{/clientes/{id}(id=${c.id})}"
+                       class="btn btn-sm btn-outline-secondary">Detalhes</a>
+                    <a th:href="@{/clientes/{id}/editar(id=${c.id})}"
+                       class="btn btn-sm btn-outline-primary">Editar</a>
+                    <form th:action="@{/clientes/{id}(id=${c.id})}" th:method="delete"
+                          class="d-inline"
+                          onsubmit="return confirm('Confirma a exclusão deste cliente?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(clientes)}">
+                <td colspan="7" class="text-center text-muted py-4">Nenhum cliente cadastrado.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

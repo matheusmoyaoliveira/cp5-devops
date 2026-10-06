@@ -1,0 +1,137 @@
+{
+  "aplicacao": "DimDim - Web App com Azure SQL",
+  "baseUrl": "https://dimdim-rm563403.azurewebsites.net",
+  "observacoes": [
+    "A aplicação é um front-end Spring MVC + Thymeleaf: as operações são feitas pelos formulários das telas.",
+    "Os formulários enviam os dados como application/x-www-form-urlencoded (campos do formulário).",
+    "HTML só envia GET e POST: PUT e DELETE são enviados como POST com o campo oculto _method, convertido pelo HiddenHttpMethodFilter do Spring.",
+    "Operações de escrita respondem com redirect 302 para a lista e uma mensagem de sucesso ou erro (flash attribute).",
+    "Erros de validação devolvem o formulário (HTTP 200) com a mensagem embaixo do campo."
+  ],
+  "clientes": [
+    {
+      "operacao": "Listar clientes",
+      "metodo": "GET",
+      "url": "/clientes",
+      "resposta": { "status": 200, "tela": "clientes/list.html" }
+    },
+    {
+      "operacao": "Detalhar cliente (com as transações dele)",
+      "metodo": "GET",
+      "url": "/clientes/{id}",
+      "exemplo": "/clientes/1",
+      "resposta": { "status": 200, "tela": "clientes/details.html" }
+    },
+    {
+      "operacao": "Cadastrar cliente",
+      "metodo": "POST",
+      "url": "/clientes",
+      "contentType": "application/x-www-form-urlencoded",
+      "corpo": {
+        "nome": "Diego Ramos",
+        "cpf": "44455566677",
+        "email": "diego.ramos@dimdim.com",
+        "telefone": "11955554444"
+      },
+      "resposta": { "status": 302, "location": "/clientes", "mensagem": "Cliente cadastrado com sucesso!" },
+      "sqlGerado": "INSERT INTO clientes (cpf, data_cadastro, email, nome, telefone) VALUES (?, ?, ?, ?, ?)",
+      "erros": [
+        { "caso": "CPF fora do padrão (11 dígitos)", "mensagem": "CPF deve ter 11 dígitos, só números" },
+        { "caso": "CPF já cadastrado", "mensagem": "Já existe um cliente com este CPF." },
+        { "caso": "E-mail já cadastrado", "mensagem": "Já existe um cliente com este e-mail." }
+      ]
+    },
+    {
+      "operacao": "Atualizar cliente",
+      "metodo": "PUT",
+      "url": "/clientes/{id}",
+      "exemplo": "/clientes/4",
+      "contentType": "application/x-www-form-urlencoded",
+      "enviadoComo": "POST /clientes/4 com _method=put",
+      "corpo": {
+        "_method": "put",
+        "nome": "Diego Ramos",
+        "cpf": "44455566677",
+        "email": "diego.ramos@dimdim.com",
+        "telefone": "11933332222"
+      },
+      "resposta": { "status": 302, "location": "/clientes", "mensagem": "Cliente atualizado com sucesso!" },
+      "sqlGerado": "UPDATE clientes SET cpf=?, email=?, nome=?, telefone=? WHERE id=?"
+    },
+    {
+      "operacao": "Excluir cliente",
+      "metodo": "DELETE",
+      "url": "/clientes/{id}",
+      "exemplo": "/clientes/4",
+      "enviadoComo": "POST /clientes/4 com _method=delete",
+      "corpo": { "_method": "delete" },
+      "resposta": { "status": 302, "location": "/clientes", "mensagem": "Cliente excluído com sucesso!" },
+      "sqlGerado": "DELETE FROM clientes WHERE id=?",
+      "regraDeNegocio": {
+        "caso": "Cliente com transações",
+        "mensagem": "Não é possível excluir <nome>: o cliente possui transações. Exclua as transações primeiro."
+      }
+    }
+  ],
+  "transacoes": [
+    {
+      "operacao": "Listar transações",
+      "metodo": "GET",
+      "url": "/transacoes",
+      "resposta": { "status": 200, "tela": "transacoes/list.html" }
+    },
+    {
+      "operacao": "Detalhar transação",
+      "metodo": "GET",
+      "url": "/transacoes/{id}",
+      "exemplo": "/transacoes/1",
+      "resposta": { "status": 200, "tela": "transacoes/details.html" }
+    },
+    {
+      "operacao": "Cadastrar transação",
+      "metodo": "POST",
+      "url": "/transacoes",
+      "contentType": "application/x-www-form-urlencoded",
+      "corpo": {
+        "cliente.id": 4,
+        "tipo": "PIX",
+        "descricao": "PIX para academia",
+        "valor": "120.00"
+      },
+      "valoresDeTipo": ["DEPOSITO", "SAQUE", "PIX", "TRANSFERENCIA", "PAGAMENTO"],
+      "resposta": { "status": 302, "location": "/transacoes", "mensagem": "Transação cadastrada com sucesso!" },
+      "sqlGerado": "INSERT INTO transacoes (cliente_id, data_transacao, descricao, tipo, valor) VALUES (?, ?, ?, ?, ?)",
+      "erros": [
+        { "caso": "Valor zero ou negativo", "mensagem": "O valor deve ser maior que zero" },
+        { "caso": "Cliente não selecionado", "mensagem": "Selecione o cliente da transação." }
+      ]
+    },
+    {
+      "operacao": "Atualizar transação",
+      "metodo": "PUT",
+      "url": "/transacoes/{id}",
+      "exemplo": "/transacoes/5",
+      "contentType": "application/x-www-form-urlencoded",
+      "enviadoComo": "POST /transacoes/5 com _method=put",
+      "corpo": {
+        "_method": "put",
+        "cliente.id": 4,
+        "tipo": "PIX",
+        "descricao": "PIX para academia",
+        "valor": "150.00"
+      },
+      "resposta": { "status": 302, "location": "/transacoes", "mensagem": "Transação atualizada com sucesso!" },
+      "sqlGerado": "UPDATE transacoes SET cliente_id=?, descricao=?, tipo=?, valor=? WHERE id=?"
+    },
+    {
+      "operacao": "Excluir transação",
+      "metodo": "DELETE",
+      "url": "/transacoes/{id}",
+      "exemplo": "/transacoes/5",
+      "enviadoComo": "POST /transacoes/5 com _method=delete",
+      "corpo": { "_method": "delete" },
+      "resposta": { "status": 302, "location": "/transacoes", "mensagem": "Transação excluída com sucesso!" },
+      "sqlGerado": "DELETE FROM transacoes WHERE id=?"
+    }
+  ]
+}
