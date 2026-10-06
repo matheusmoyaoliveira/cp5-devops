@@ -4,10 +4,9 @@ Aplicação web do banco digital **DimDim** para gestão de **clientes** e **tra
 
 > 2º Checkpoint · 2º Semestre · DevOps Tools & Cloud Computing · FIAP
 
-| | |
-|---|---|
-| **Aplicação** | https://dimdim-rm563403.azurewebsites.net |
-| **Vídeo** | _link do vídeo (adicionado após a gravação)_ |
+**🌐 Aplicação:** https://dimdim-rm563403.azurewebsites.net
+
+**🎬 Vídeo:** _link adicionado após a gravação_
 
 ## Grupo Doletas
 
